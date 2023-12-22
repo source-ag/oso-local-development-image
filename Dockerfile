@@ -5,8 +5,12 @@ RUN apt-get update \
     curl \
     # unzip \
   && rm -rf /var/lib/apt/lists/*
-RUN curl https://oso-local-development-binary.s3.amazonaws.com/oso-local-development-binary-linux-x86_64.tar.gz --output local.tar.gz \
-  && tar -xzf local.tar.gz \
-  && rm local.tar.gz
+
+ARG TARGETARCH
+
+COPY download-binary.sh /download-binary.sh
+
+RUN chmod +x /download-binary.sh && /download-binary.sh
+
 RUN chmod +x ./standalone
 CMD ["./standalone"]
