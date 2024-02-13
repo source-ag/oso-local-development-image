@@ -3,11 +3,15 @@
 # Determine the architecture from the TARGETARCH environment variable
 ARCH=$TARGETARCH
 
+# Read the version from the VERSION file, trim the leading and trailing whitespace
+VERSION=$(cat ./VERSION | awk '{$1=$1};1')
+echo "Building for binary version $VERSION"
+
 # Set the download URL based on the architecture
 if [ "$ARCH" = "amd64" ]; then
-    URL="https://oso-local-development-binary.s3.amazonaws.com/oso-local-development-binary-linux-x86_64.tar.gz"
+    URL="https://oso-local-development-binary.s3.amazonaws.com/$VERSION/oso-local-development-binary-linux-x86_64.tar.gz"
 elif [ "$ARCH" = "arm64" ]; then
-    URL="https://oso-local-development-binary.s3.amazonaws.com/dev/oso-local-development-binary-linux-arm64.tar.gz"
+    URL="https://oso-local-development-binary.s3.amazonaws.com/$VERSION/oso-local-development-binary-linux-arm64.tar.gz"
 else
     echo "Unsupported architecture: $ARCH"
     exit 1
